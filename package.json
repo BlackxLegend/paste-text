@@ -1,5 +1,5 @@
 {
-  "name": "my paste bin",
+  "name": "paste-bin",
   "version": "1.0.0",
   "description": "A simple Express.js server that handles requests to other websites",
   "main": "server.js",
