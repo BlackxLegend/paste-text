@@ -15,6 +15,32 @@ if (!fs.existsSync(pastesDir)){
     fs.mkdirSync(pastesDir);
 }
 
+// ANSI escape codes for red color
+const red = '\x1b[31m';
+const reset = '\x1b[0m';
+
+// Monitor the directory for new files
+fs.watch(pastesDir, (eventType, filename) => {
+    if (eventType === 'rename' && filename) {
+        const filePath = path.join(pastesDir, filename);
+        if (fs.existsSync(filePath)) {
+            fs.readFile(filePath, 'utf8', (err, data) => {
+                if (err) {
+                    console.error(`Failed to read new file ${filename}`, err);
+                    return;
+                }
+                try {
+                    const parsedData = JSON.parse(data);
+                    console.log(`${red}New file added: ${filename}${reset}`);
+                    console.log(`Contents:`, parsedData);
+                } catch (err) {
+                    console.error(`Failed to parse JSON from file ${filename}`, err);
+                }
+            });
+        }
+    }
+});
+
 // Helper function to generate a unique filename
 function generateFilename() {
     return `paste_${Date.now()}.json`;
@@ -157,7 +183,7 @@ app.get('/paste/id/text', (req, res) => {
     }
 });
 
-// New endpoint to show all pastes
+// Endpoint to show all pastes
 app.get('/paste/id/all', (req, res) => {
     fs.readdir(pastesDir, (err, files) => {
         if (err) {
