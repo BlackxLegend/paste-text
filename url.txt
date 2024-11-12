@@ -1,0 +1,14 @@
+show all text with file name 
+/paste/id/all
+
+delete all file 
+/paste/id/text?delete=all
+
+search or to see the file using the file name 
+/paste/id/text?search=paste_1722189789656.json
+
+to add text 
+/pastes/text?add=(TEXT)
+
+delete file using file name 
+/paste/id/text?delete=paste_1722189335424.json
